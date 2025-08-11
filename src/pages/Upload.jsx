@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import Swal from 'sweetalert2';
+import { Hourglass } from 'react-spinners-css';
 
 
 
@@ -11,6 +12,7 @@ export default function Upload() {
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
 
   async function handleSubmit(e) {
@@ -22,6 +24,8 @@ export default function Upload() {
     const formData = new FormData();
     formData.append('video', file);
     formData.append('title', title);
+
+    setLoading(true);
 
     try {
       const token = await currentUser.getIdToken();
@@ -36,19 +40,27 @@ export default function Upload() {
         }
       );
       Swal.fire({
-        title: "logged in!",
+        position: "top-end",
         icon: "success",
-        draggable: true
+        title: "Your video has been uploaded",
+        showConfirmButton: false,
+        timer: 1500
       });
       setMessage(`Upload successful: ${res.data.url}`);
+      setLoading(false);
     } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
       console.error(err);
       setMessage('Upload failed.');
     }
   }
 
   return (
-    <div className="max-w-md mx-auto py-8">
+    <div className="max-w-md mx-auto py-8 mt-14">
       <h1 className="text-2xl font-bold mb-4 text-center">Upload Video</h1>
       {message && <p className="text-center mb-4">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,12 +83,19 @@ export default function Upload() {
             className="w-full"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
-        >
-          Upload
-        </button>
+
+        {loading ? <>
+          <Hourglass /> <Hourglass /> <Hourglass /> <Hourglass className="mb-4" />
+        </>
+          :
+          <>
+            <button
+              type="submit"
+              className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+            >Upload</button>
+            
+          </>}
+
       </form>
     </div>
   );

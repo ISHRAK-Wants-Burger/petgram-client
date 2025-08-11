@@ -15,6 +15,7 @@ export default function Signup() {
     try {
       setError('');
       await signup(emailRef.current.value, passRef.current.value);
+      
       Swal.fire({
               title: "New user created, Welcome!",
               icon: "success",
