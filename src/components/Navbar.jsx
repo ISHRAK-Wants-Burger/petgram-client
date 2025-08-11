@@ -94,7 +94,7 @@ export default function Navbar() {
                 User
               </span>
               :
-              <span className="text-sm px-2 py-1 rounded bg-white border">
+              <span title={currentUser?.email} className="text-sm px-2 py-1 rounded bg-white border">
                 Creator
               </span>
             }</>
