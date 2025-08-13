@@ -35,6 +35,8 @@ jobs:
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
+        env:
+          VITE_API_BASE: "https://petgram-backend-ishrak-htfmfec7bab0c2b2.uksouth-01.azurewebsites.net/api"
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BRAVE_CLIFF_03C5B2503 }}
           action: "upload"
@@ -56,3 +58,4 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           action: "close"
+
