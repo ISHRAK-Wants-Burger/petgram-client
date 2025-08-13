@@ -70,9 +70,37 @@ export function AuthProvider({ children }) {
   }, []);
 
   // Authentication functions
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signup(email, password, extraData = {}) {
+    // Step 1: Create user in Firebase
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    const token = await user.getIdToken(); // firebase token
+
+    // Step 2: Save additional data to Cosmos DB
+    try {
+      await fetch('http://localhost:5000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          name: extraData.name || '',
+          dob: extraData.dob || '',
+          role: 'consumer',
+          createdAt: new Date().toISOString()
+        })
+      });
+    } catch (err) {
+      console.error("Error saving user to DB:", err);
+    }
+
+    return user;
   }
+
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
   }
@@ -83,8 +111,8 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     role,
-    setRole,      
-    refreshRole,  
+    setRole,
+    refreshRole,
     signup,
     login,
     logout,

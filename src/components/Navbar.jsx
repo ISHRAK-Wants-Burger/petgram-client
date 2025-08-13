@@ -90,7 +90,7 @@ export default function Navbar() {
           } */}
           {currentUser ?
             <>{currentUser && role !== 'creator' ?
-              <span className="text-sm px-2 py-1 rounded bg-white border">
+              <span title={currentUser?.email} className="text-sm px-2 py-1 rounded bg-white border">
                 User
               </span>
               :

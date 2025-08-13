@@ -10,6 +10,7 @@ export default function CommentForm({ videoId, onCommentAdded }) {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!text.trim()) return;
+
     if (!currentUser) {
       alert('Please log in to post a comment.');
       return;
@@ -18,7 +19,7 @@ export default function CommentForm({ videoId, onCommentAdded }) {
     setSending(true);
     try {
       const token = await currentUser.getIdToken();
-      const res = await fetch(`http://localhost:5000/api/videos/${videoId}/comments`, {
+      const res = await fetch(`/api/videos/${videoId}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,12 +48,17 @@ export default function CommentForm({ videoId, onCommentAdded }) {
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        rows="3"
+        rows={3}
         className="w-full p-2 border rounded"
         placeholder="Write a comment..."
+        disabled={sending}
       />
       <div className="text-right mt-2">
-        <button disabled={sending} className="px-3 py-1 bg-blue-600 text-white rounded">
+        <button
+          type="submit"
+          disabled={sending}
+          className="px-3 py-1 bg-blue-600 text-white rounded disabled:opacity-50"
+        >
           {sending ? 'Posting…' : 'Post Comment'}
         </button>
       </div>

@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 export default function Signup() {
+  const nameRef = useRef();
+  const dobRef = useRef();
   const emailRef = useRef();
-  const passRef  = useRef();
+  const passRef = useRef();
   const { signup } = useAuth();
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -14,15 +16,26 @@ export default function Signup() {
     e.preventDefault();
     try {
       setError('');
-      await signup(emailRef.current.value, passRef.current.value);
-      
+      // Collect extra fields
+      const name = nameRef.current.value.trim();
+      const dob = dobRef.current.value;
+      const email = emailRef.current.value;
+      const password = passRef.current.value;
+
+      await signup(email, password, { name, dob });
+
       Swal.fire({
-              title: "New user created, Welcome!",
-              icon: "success",
-              draggable: true
-            });
+        title: "New user created, Welcome!",
+        icon: "success",
+        draggable: true
+      });
       navigate('/');
     } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
       setError('Failed to create an account');
     }
   }
@@ -32,6 +45,10 @@ export default function Signup() {
       <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
       {error && <p className="text-red-600">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
+        <input ref={nameRef} type="text" placeholder="Full Name" required
+          className="w-full p-2 border rounded" />
+        <input ref={dobRef} type="date" placeholder="Date of Birth" required
+          className="w-full p-2 border rounded" />
         <input ref={emailRef} type="email" placeholder="Email" required
           className="w-full p-2 border rounded" />
         <input ref={passRef} type="password" placeholder="Password" required
