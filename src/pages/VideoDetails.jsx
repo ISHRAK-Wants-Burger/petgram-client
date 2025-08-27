@@ -46,9 +46,9 @@ export default function VideoDetails() {
       {/* Ratings + Creator Link */}
       <div className="mb-6 flex items-center space-x-4">
         <RatingButtons videoId={id} />
-        <Link to={`/creator/${video?.creatorId}`} className="text-sm text-blue-600">
+        {/* <Link to={`/creator/${video?.creatorId}`} className="text-sm text-blue-600">
           View Creator
-        </Link>
+        </Link> */}
       </div>
 
       {/* Comments */}

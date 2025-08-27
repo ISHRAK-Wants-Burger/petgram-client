@@ -70,13 +70,14 @@ export default function Navbar() {
 
   return (
     <div className='fixed top-0 left-0 w-full z-50'>
+      
       <nav className="bg-gray-100 px-6 py-4 shadow flex justify-between items-center">
-        <div className="flex space-x-4 items-center">
-          <Link className="text-blue-600 hover:underline" to="/">Dashboard</Link>
+        <div className="flex space-x-4 items-center font-bold">
+          <Link className="text-cyan-600 hover:underline" to="/">Dashboard</Link>
 
           {/* Only show Upload if user is a creator */}
           {currentUser && role === 'creator' && (
-            <Link className="text-blue-600 hover:underline" to="/upload">Upload</Link>
+            <Link className="text-cyan-600 hover:underline" to="/upload">Upload</Link>
           )}
         </div>
 
@@ -90,11 +91,11 @@ export default function Navbar() {
           } */}
           {currentUser ?
             <>{currentUser && role !== 'creator' ?
-              <span title={currentUser?.email} className="text-sm px-2 py-1 rounded bg-white border">
+              <span title={currentUser?.email} className="text-sm px-2 py-1 rounded bg-white border font-bold">
                 User
               </span>
               :
-              <span title={currentUser?.email} className="text-sm px-2 py-1 rounded bg-white border">
+              <span title={currentUser?.email} className="text-sm px-2 py-1 rounded bg-white border font-bold">
                 Creator
               </span>
             }</>
@@ -107,7 +108,7 @@ export default function Navbar() {
             <button
               onClick={handlePromote}
               disabled={promoting}
-              className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded"
+              className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white text-xs md:text-lg rounded"
               title="Promote your account to creator"
             >
               {promoting ? 'Promoting…' : 'Become Creator'}
@@ -118,7 +119,7 @@ export default function Navbar() {
           {currentUser && (
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              className="bg-rose-400 text-white px-3 py-1 rounded hover:bg-red-700"
             >
               Logout
             </button>
@@ -127,8 +128,8 @@ export default function Navbar() {
           {/* If not logged in show login/signup */}
           {!currentUser && (
             <>
-              <Link className="text-blue-600 hover:underline" to="/login">Log In</Link>
-              <Link className="text-blue-600 hover:underline" to="/signup">Sign Up</Link>
+              <Link className="text-cyan-600 hover:underline font-bold" to="/login">Log In</Link>
+              <Link className="text-cyan-600 hover:underline font-bold" to="/signup">Sign Up</Link>
             </>
           )}
         </div>

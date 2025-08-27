@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
   async function signup(email, password, extraData = {}) {
     // Step 1: Create user in Firebase
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    const user = userCredential?.user;
 
     const token = await user.getIdToken(); // firebase token
 
@@ -86,10 +86,10 @@ export function AuthProvider({ children }) {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          uid: user.uid,
-          email: user.email,
-          name: extraData.name || '',
-          dob: extraData.dob || '',
+          uid: user?.uid,
+          email: user?.email,
+          name: extraData?.name || '',
+          dob: extraData?.dob || '',
           role: 'consumer',
           createdAt: new Date().toISOString()
         })

@@ -90,7 +90,7 @@ export default function Dashboard() {
   return (
     <div className="p-4">
       <div className="mt-14 flex flex-col md:flex-row justify-between items-center gap-4">
-        <h1 className="text-xl font-bold">PETGRAM</h1>
+        <h1 className="text-xl md:text-2xl font-bold">PETGRAM</h1>
 
         {/* Search */}
         <input
@@ -122,22 +122,45 @@ export default function Dashboard() {
       {filteredVideos?.length === 0 ? (
         <p>No videos found.</p>
       ) : (
-        <ul className="mx-24 md:mx-80 grid grid-cols-1 gap-1 md:gap-2">
+        <ul className="mx-24 md:mx-80 grid grid-cols-1 gap-1 md:gap-2 mb-5">
           {filteredVideos.map((video) => (
-            <li key={video._id} className="border p-2 rounded mt-6">
-              <h2 className="font-semibold">
-                <Link to={`/video/${video._id}`} className="text-blue-600 hover:underline">
+            <li key={video?._id} className="border p-2 rounded mt-6 ">
+              <h2 className="font-bold my-1 md:my-3 text-lg">
+                <Link to={`/video/${video?._id}`} className="text-cyan-500 hover:underline ">
                   {video.title}
                 </Link>
               </h2>
 
-              <Link to={`/video/${video._id}`}>
-                <video src={video.url} controls className="w-full rounded" />
+              <h2 className="font-bold mb-2 text-slate-800">Genre: <span className="bg-slate-300 rounded p-1">{video?.genre}</span></h2>
+
+              <Link to={`/video/${video?._id}`}>
+                <video src={video?.url} controls className="w-full rounded" />
               </Link>
             </li>
           ))}
         </ul>
       )}
+
+      <div className="bg-gray-900 text-white p-5 grid grid-cols-1 md:grid-cols-3">
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="text-2xl">Petgram</h2>
+          <p className="text-cyan-600">A social platform for your Pet</p>
+        </div>
+        <div className="">
+          <p className="text-lg">Social Media Links</p>
+          <Link to="https://www.facebook.com/"><p>Facebook</p></Link>
+          <Link to="https://www.youtube.com/"><p>Youtube</p></Link>
+          <p>Instagram</p>
+          <p>X: Twitter</p>
+        </div>
+        <div>
+          <p>Privacy Policy</p>
+          <p>Career</p>
+          <p>Contact Us</p>
+          <p></p>
+          <p></p>
+        </div>
+      </div>
     </div>
   );
 }
